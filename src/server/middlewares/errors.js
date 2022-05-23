@@ -14,7 +14,6 @@ const generalError = (error, req, res, next) => {
   debug(chalk.red(error.message || error.customMessage));
   const message = error.customMessage ?? "General pete";
   const statusCode = error.statusCode ?? 500;
-
   res.status(statusCode).json({ error: true, message });
 };
 
