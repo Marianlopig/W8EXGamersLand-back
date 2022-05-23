@@ -1,9 +1,7 @@
 const { userRegister, userLogin } = require("./userControllers");
 const bcrypt = require("bcrypt");
 const User = require("../database/models/User");
-const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-
 
 const mockNewUser = {
   name: "Silvi",
@@ -12,17 +10,14 @@ const mockNewUser = {
   _id: "sdjdksfwe54",
 };
 
+const expectedToken = "aaaa";
+
 jest.mock("../database/models/User", () => ({
   findOne: jest.fn(),
   create: jest.fn(() => mockNewUser),
 }));
 
-const expectedToken = "aaaa";
-
-jest.mock("bcrypt", () => ({
-  ...jest.requireActual("bcrypt"),
-  hash: jest.fn().mockResolvedValue("abcdefghilmnopqrstuvz"),
-}));
+jest.mock("bcrypt", () => ({ compare: jest.fn(), hash: jest.fn() }));
 
 describe("Given a register user function", () => {
   describe("When it is called on", () => {
@@ -30,6 +25,8 @@ describe("Given a register user function", () => {
       const req = {
         body: { name: "Silvi", username: "silvi", password: "11111" },
       };
+
+      User.findOne.mockImplementation(() => false);
 
       const res = {
         status: jest.fn().mockReturnThis(),
@@ -44,27 +41,30 @@ describe("Given a register user function", () => {
       expect(res.status).toHaveBeenCalledWith(expectedStatus);
       expect(res.json).toHaveBeenCalledWith(expectedJson);
     });
-    describe("When it is called with a user that is already in the database", () => {
-      test("Then it should call the 'next' middleware with an error", async () => {
-        const req = {
-          body: { name: "Paco", username: "paco", password: "paco1" },
-        };
-        const res = {
-          status: jest.fn().mockReturnThis(),
-          json: jest.fn(),
-        };
+  });
+  describe("When it is called with a user that is already in the database", () => {
+    test("Then it should call the 'next' middleware with an error", async () => {
+      const req = {
+        body: { name: "Paco", username: "paco", password: "paco1" },
+      };
+      const res = {
+        status: jest.fn().mockReturnThis(),
+        json: jest.fn(),
+      };
 
-        const mockNext = jest.fn();
+      const mockNext = jest.fn();
+      User.findOne.mockImplementation(() => true);
+      bcrypt.hash.mockImplementation(() => "hashedPassword");
 
-        User.findOne.mockImplementation(() => true);
+      await userRegister(req, res, mockNext);
+      const expectedError = new Error();
+      expectedError.code = 409;
+      expectedError.message = "This user already exists...";
 
-        await userRegister(req, res, mockNext);
-        const expectedError = new Error();
-        expectedError.code = 409;
-        expectedError.message = "This user already exists...";
-        expect(mockNext).toHaveBeenCalledWith(expectedError);
-      });
-
+      expect(mockNext).toHaveBeenCalledWith(expectedError);
+    });
+  });
+});
 
 describe("Given a loginUser function", () => {
   const req = {
@@ -97,6 +97,7 @@ describe("Given a loginUser function", () => {
       expect(res.json).toHaveBeenCalledWith({ token: expectedToken });
     });
   });
+
   describe("When invoked with a req object with an incorrect username", () => {
     test("Then it should call the next function", async () => {
       const next = jest.fn();
@@ -108,6 +109,7 @@ describe("Given a loginUser function", () => {
       expect(next).toHaveBeenCalled();
     });
   });
+
   describe("When invoked with a req object with a correct username and a wrong password", () => {
     test("Then it should call the next function", async () => {
       const next = jest.fn();
