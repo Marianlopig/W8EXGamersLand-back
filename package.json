@@ -4,7 +4,8 @@
   "main": "src/index.js",
   "scripts": {
     "start": "node src",
-    "start-dev": "nodemon src -q"
+    "start-dev": "nodemon src -q",
+    "test-coverage": "jest --watchAll=false --coverage"
   },
   "keywords": [],
   "author": "",
