@@ -1,7 +1,6 @@
 const request = require("supertest");
 const { MongoMemoryServer } = require("mongodb-memory-server");
 const { default: mongoose } = require("mongoose");
-const bcrypt = require("bcrypt");
 const mockNewUser = require("../mocks/usersMock");
 const connectDB = require("../database");
 const app = require("../server/index");
@@ -38,8 +37,6 @@ describe("Given a POST/user/login endpoint", () => {
         password: "lelo",
       };
 
-      bcrypt.compare = jest.fn().mockReturnValue(true);
-
       const {
         body: { token },
       } = await request(app).post("/users/login").send(user).expect(200);
@@ -71,8 +68,6 @@ describe("Given a POST/user/login endpoint", () => {
         username: "lelo",
         password: "dhjshdj",
       };
-
-      bcrypt.compare = jest.fn().mockReturnValue(false);
 
       const { token } = await request(app)
         .post("/users/login")
