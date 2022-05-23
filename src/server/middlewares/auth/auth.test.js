@@ -1,23 +1,35 @@
 const auth = require("./auth");
+const jwt = require("jsonwebtoken");
 
 describe("Given an auth function", () => {
   describe("When it receives a request with a valid token", () => {
     test("Then it should call next ", () => {
-      const mockId = 3;
-
-      jest.mock("jsonwebtoken", () => ({
-        ...jest.requireActual("jsonwebtoken"), // import and retain the original functionalities
-        verify: () => mockId, // overwrite verify
-      }));
+      const mockId = { id: 3 };
+      jwt.verify = jest.fn().mockReturnValue(mockId);
+      const next = jest.fn();
 
       const req = {
         headers: { Authorization: "Bearer " },
       };
 
-      const next = jest.fn();
       auth(req, null, next);
 
-      expect(next).toHaveBeenCalled();
+      expect(next).toHaveBeenCalledWith();
+    });
+  });
+
+  describe("When it receives a request with nvalid token", () => {
+    test("Then it should call next with error", () => {
+      const req = {
+        headers: { Authorization: "InvalidToken" },
+      };
+      const next = jest.fn();
+      const customError = new Error("invalid token");
+      customError.statusCode = 401;
+
+      auth(req, null, next);
+
+      expect(next).toHaveBeenCalledWith(customError);
     });
   });
 });
