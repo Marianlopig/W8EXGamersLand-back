@@ -39,8 +39,10 @@
   },
   "jest": {
     "collectCoverageFrom": [
-      "src/*/.js",
-      "!src/index.js"
+      "src/**/*.js",
+      "!src/index.js",
+      "!index.js",
+      "!src/server/initializeServer.js"
     ]
   },
   "description": ""
