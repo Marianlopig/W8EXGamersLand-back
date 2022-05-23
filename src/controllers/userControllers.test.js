@@ -1,7 +1,7 @@
-const { userRegister, userLogin } = require("./userControllers");
-const bcrypt = require("bcrypt");
-const User = require("../database/models/User");
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
+const { userRegister, userLogin } = require("./userControllers");
+const User = require("../database/models/User");
 
 const mockNewUser = {
   name: "Silvi",
@@ -85,7 +85,7 @@ describe("Given a loginUser function", () => {
     jwt.sign = jest.fn().mockReturnValue(expectedToken);
 
     test("Then it should call res status method status with 201", async () => {
-      const expectedStatus = 201;
+      const expectedStatus = 200;
 
       await userLogin(req, res);
 

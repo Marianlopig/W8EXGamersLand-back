@@ -6,7 +6,7 @@
     "start": "node src",
     "start-dev": "nodemon src -q",
     "prepare": "husky install",
-    "test": "jest",
+    "test": "jest --watchAll",
     "test-coverage": "jest --coverage"
   },
   "keywords": [],
@@ -35,9 +35,10 @@
     "mongoose": "^6.3.4",
     "morgan": "^1.10.0",
     "multer": "^1.4.4",
+    "supertest": "^6.2.3",
     "validation": "^0.0.1"
   },
-"jest": {
+  "jest": {
     "collectCoverageFrom": [
       "src/**/*.js",
       "!src/index.js",
