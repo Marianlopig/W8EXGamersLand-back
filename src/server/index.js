@@ -11,6 +11,7 @@ app.use(morgan("dev"));
 app.use(express.json());
 
 app.use("/user", userRouter);
+app.use("/games", gamesRouter);
 
 app.use(notFoundError);
 app.use(generalError);
