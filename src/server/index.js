@@ -3,6 +3,7 @@ const cors = require("cors");
 const morgan = require("morgan");
 const userRouter = require("../routers/userRouter");
 const { notFoundError, generalError } = require("./middlewares/errors");
+const gamesRouter = require("../routers/gamesRouter/gamesRouter");
 
 const app = express();
 
@@ -10,7 +11,8 @@ app.use(cors());
 app.use(morgan("dev"));
 app.use(express.json());
 
-app.use("/users", userRouter);
+app.use("/user", userRouter);
+app.use("/games", gamesRouter);
 
 app.use(notFoundError);
 app.use(generalError);
