@@ -37,7 +37,7 @@ const userRegister = async (req, res, next) => {
 
   if (user) {
     const error = new Error();
-    error.code = 409;
+    error.statusCode = 409;
     error.message = "This user already exists...";
 
     next(error);
@@ -50,7 +50,7 @@ const userRegister = async (req, res, next) => {
 
     res.status(201).json({ name });
   } catch (error) {
-    error.code = 400;
+    error.statusCode = 400;
     error.message = "Wrong user data..";
     next(error);
   }
