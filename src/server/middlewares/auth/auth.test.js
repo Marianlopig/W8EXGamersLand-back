@@ -4,12 +4,11 @@ const auth = require("./auth");
 describe("Given an auth function", () => {
   describe("When it receives a request with a valid token", () => {
     test("Then it should call next ", () => {
-      const mockId = { id: 3 };
-      jwt.verify = jest.fn().mockReturnValue(mockId);
+      jwt.verify = jest.fn().mockReturnValue(true);
       const next = jest.fn();
 
       const req = {
-        headers: { Authorization: "Bearer " },
+        headers: { authorization: "Bearer " },
       };
 
       auth(req, null, next);
@@ -18,10 +17,10 @@ describe("Given an auth function", () => {
     });
   });
 
-  describe("When it receives a request with nvalid token", () => {
+  describe("When it receives a request with invalid token", () => {
     test("Then it should call next with error", () => {
       const req = {
-        headers: { Authorization: "InvalidToken" },
+        headers: { authorization: "InvalidToken" },
       };
       const next = jest.fn();
       const customError = new Error("invalid token");
