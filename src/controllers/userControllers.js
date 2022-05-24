@@ -48,9 +48,9 @@ const userRegister = async (req, res, next) => {
 
     await User.create(newUser);
 
-    res.status(201).json({ name });
+    res.status(201).json({ username });
   } catch (error) {
-    error.code = 400;
+    error.statusCode = 400;
     error.message = "Wrong user data..";
     next(error);
   }
