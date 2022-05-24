@@ -13,4 +13,5 @@ const userRouter = express.Router();
 userRouter.post("/login", validate(credentialsLoginSchema), userLogin);
 userRouter.post("/register", validate(credentialsRegisterSchema), userRegister);
 userRouter.get("/games", auth, getGames);
+
 module.exports = userRouter;
