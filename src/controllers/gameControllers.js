@@ -6,13 +6,15 @@ const customError = require("../utils/customError");
 
 const getGames = async (req, res, next) => {
   debug(chalk.yellowBright("New game list request received"));
-  try {
-    const games = await Game.find();
-    res.status(200).json(games);
-  } catch {
+
+  const games = await Game.find();
+
+  if (games.length === 0) {
     const error = customError(404, "Games not found");
     next(error);
+    return;
   }
+  res.status(200).json(games);
 };
 
 module.exports = { getGames };
