@@ -10,7 +10,7 @@ app.use(cors());
 app.use(morgan("dev"));
 app.use(express.json());
 
-app.use("/users", userRouter);
+app.use("/user", userRouter);
 
 app.use(notFoundError);
 app.use(generalError);
