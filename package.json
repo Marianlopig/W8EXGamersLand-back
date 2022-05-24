@@ -6,8 +6,8 @@
     "start": "node src",
     "start-dev": "nodemon src -q",
     "prepare": "husky install",
-    "test": "jest --watchAll",
-    "test-coverage": "jest --coverage"
+    "test": "jest",
+    "test-coverage": "jest --coverage --watchAll=false"
   },
   "keywords": [],
   "author": "",
@@ -43,7 +43,8 @@
       "src/**/*.js",
       "!src/index.js",
       "!index.js",
-      "!src/server/initializeServer.js"
+      "!src/server/initializeServer.js",
+      "!src/database/index.js"
     ]
   },
   "description": ""
