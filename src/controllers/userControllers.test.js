@@ -10,7 +10,7 @@ const mockNewUser = {
   _id: "sdjdksfwe54",
 };
 
-const expectedToken = "aaaa";
+const expectedToken = "aaab";
 
 jest.mock("../database/models/User", () => ({
   findOne: jest.fn(),
