@@ -34,7 +34,7 @@ describe("Given a register user function", () => {
       };
 
       const expectedStatus = 201;
-      const expectedJson = { name: "silvi" };
+      const expectedJson = { username: "silvi" };
       bcrypt.hash.mockImplementation(() => "hashedPassword");
       await userRegister(req, res, null);
 
