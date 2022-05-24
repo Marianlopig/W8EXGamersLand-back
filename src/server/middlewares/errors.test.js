@@ -2,10 +2,6 @@ const { notFoundError, generalError } = require("./errors");
 
 describe("Given a notFoundPage function", () => {
   describe("When it's invoked with a response", () => {
-    // const res = {
-    //   status: jest.fn().mockReturnThis(),
-    //   json: jest.fn(),
-    // };
     test("Then it should call the response method status with a 404", async () => {
       const next = jest.fn();
       notFoundError(null, null, next);
@@ -20,6 +16,7 @@ describe("Given generalError function", () => {
     status: jest.fn().mockReturnThis(),
     json: jest.fn(),
   };
+
   describe("When it receives a response", () => {
     test("Then it should call a response method with status code equal 500", () => {
       const error = {

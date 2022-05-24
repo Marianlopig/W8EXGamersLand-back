@@ -1,5 +1,5 @@
-const auth = require("./auth");
 const jwt = require("jsonwebtoken");
+const auth = require("./auth");
 
 describe("Given an auth function", () => {
   describe("When it receives a request with a valid token", () => {
@@ -14,7 +14,7 @@ describe("Given an auth function", () => {
 
       auth(req, null, next);
 
-      expect(next).toHaveBeenCalledWith();
+      expect(next).toHaveBeenCalled();
     });
   });
 
