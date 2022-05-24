@@ -76,3 +76,35 @@ describe("Given a POST/user/login endpoint", () => {
     });
   });
 });
+
+describe("Given a post /users/register endpoint", () => {
+  describe("When it receives a new user request", () => {
+    test("Then it should respond with a 2001 status code and a username", async () => {
+      const response = await request(app)
+        .post("/user/register")
+        .send({
+          name: "julia",
+          username: "Julia",
+          password: "password",
+        })
+        .expect(201);
+
+      expect(response.body.id).not.toBeNull();
+      expect(response.body.username).toBe("Julia");
+    });
+  });
+  describe("When it receives an already existing user request", () => {
+    test("Then it should respond with a 409 status code and the test 'user already exists'", async () => {
+      const response = await request(app)
+        .post("/user/register")
+        .send({
+          name: "Silvi",
+          username: "silvi",
+          password: "password",
+        })
+        .expect(409);
+
+      expect(response.body.error).toBe(true);
+    });
+  });
+});
