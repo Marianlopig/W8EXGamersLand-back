@@ -41,6 +41,7 @@ const userRegister = async (req, res, next) => {
     error.message = "This user already exists...";
 
     next(error);
+    return;
   }
   try {
     const encryptedPassword = await bcrypt.hash(password, 10);
