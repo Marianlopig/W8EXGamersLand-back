@@ -32,7 +32,6 @@ describe("Given a POST/user/login endpoint", () => {
   describe("When it receives a request with a users present in the database", () => {
     test("Then it should respond with a 200 status and a token", async () => {
       const user = {
-        name: "lelo",
         username: "lelo",
         password: "lelo",
       };
@@ -40,6 +39,7 @@ describe("Given a POST/user/login endpoint", () => {
       const {
         body: { token },
       } = await request(app).post("/user/login").send(user).expect(200);
+
       expect(token).not.toBeNull();
     });
   });
@@ -47,7 +47,6 @@ describe("Given a POST/user/login endpoint", () => {
   describe("When it receives a request with a user not present in the database", () => {
     test("Then it should response with status error 403", async () => {
       const user = {
-        name: "pablo",
         username: "Pablo",
         password: "escobar",
       };
@@ -64,7 +63,6 @@ describe("Given a POST/user/login endpoint", () => {
   describe("When it receives a request with a user not present in the database", () => {
     test("Then it should response with status error 403", async () => {
       const user = {
-        name: "lelo",
         username: "lelo",
         password: "dhjshdj",
       };
