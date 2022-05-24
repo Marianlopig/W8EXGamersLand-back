@@ -1,6 +1,6 @@
-const request = require("supertest");
 const { MongoMemoryServer } = require("mongodb-memory-server");
 const { default: mongoose } = require("mongoose");
+const request = require("supertest");
 const mockNewUser = require("../mocks/usersMock");
 const connectDB = require("../database");
 const app = require("../server/index");
@@ -39,7 +39,7 @@ describe("Given a POST/user/login endpoint", () => {
 
       const {
         body: { token },
-      } = await request(app).post("/users/login").send(user).expect(200);
+      } = await request(app).post("/user/login").send(user).expect(200);
       expect(token).not.toBeNull();
     });
   });
@@ -53,7 +53,7 @@ describe("Given a POST/user/login endpoint", () => {
       };
 
       const { token } = await request(app)
-        .post("/users/login")
+        .post("/user/login")
         .send(user)
         .expect(403);
 
@@ -70,7 +70,7 @@ describe("Given a POST/user/login endpoint", () => {
       };
 
       const { token } = await request(app)
-        .post("/users/login")
+        .post("/user/login")
         .send(user)
         .expect(403);
 
