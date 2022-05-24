@@ -19,16 +19,14 @@ const getGames = async (req, res, next) => {
 
 const getGame = async (req, res, next) => {
   const { id } = req.params;
-
-  const game = await Game.findById(id);
-  debug(chalk.yellowBright(`New game request, id requested:${id}`));
-
-  if (!game) {
+  try {
+    const game = await Game.findById(id);
+    debug(chalk.yellowBright(`New game request, id requested:${id}`));
+    res.status(200).json(game);
+  } catch {
     const error = customError(404, "Game not found");
     next(error);
-    return;
   }
-  res.status(200).json(game);
 };
 
 module.exports = { getGames, getGame };

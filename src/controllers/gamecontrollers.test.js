@@ -52,10 +52,10 @@ describe("Given a getGame controller", () => {
   describe("When its invoked with a non existent id", () => {
     test("Then it should call the received next function", async () => {
       const req = {
-        params: { id: "wrong id" },
+        params: { id: "wrongid" },
       };
 
-      Game.findById = jest.fn().mockResolvedValue(false);
+      Game.findById = jest.fn().mockRejectedValue(new Error("Game not found"));
 
       await getGames(req, null, next);
 
